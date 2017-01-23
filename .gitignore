@@ -1,0 +1,7 @@
+# Ignore cache and saves
+cache
+saves
+images
+*.zip
+*.mp3
+*.rpyc
