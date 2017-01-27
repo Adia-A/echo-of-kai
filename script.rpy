@@ -310,19 +310,23 @@ label start:
 
     # These display lines of dialogue.
 
-    "{=n_text}I woke up at 0600 on the dot again today. Almost like I’d been programmed to, like one of those enhancement junkies. Another night of vivid dreams. Dreams about her. Always about her.{/n_text}"
+    "{=n_text}I woke up at 0600 on the dot again today. Almost like I’d been programmed to, like one of those enhancement junkies.{/n_text}"
+    
+    "{=n_text}Another night of vivid dreams. Dreams about her. Always about her.{/n_text}"
     
     play sound "TV2.mp3"
     show tablet at truecenter
     window hide
     pause
     
-    "{=n_text}Since I took this case, I haven’t been able to get her out of my mind. Where is she? Why’d she run away? What happened to you Kai?{/n_text}"
+    "{=n_text}Since I took this case, I haven’t been able to get her out of my mind. Where is she? Why’d she run away?{/n_text}"
     
     play sound "TV2.mp3"
     hide tablet
     
-    "{=n_text}The questions dart around in my head like a school of fish. Maybe today will be the day I find her and can finally put this obsession to rest.{/n_text}"
+    "{=n_text}What happened to you Kai? The questions dart around in my head like a school of fish.{/n_text}"
+    
+    "{=n_text}Maybe today will be the day I find her and can finally put this obsession to rest.{/n_text}"
     
     stop music fadeout 4.0
     jump the_bar
@@ -353,7 +357,9 @@ label the_bar:
     
     "{=n_text}I feel like I’ve seen her before, but I’m not sure where. It doesn’t matter. It’s time to put this empath implant to the test...{/n_text}"
     
-    "{=n_text}{b}EMPATH MOD V.07 INITIATED{b}{/n_text}"
+    "{=n_text}{b}EMPATH MOD V.07 INITIATED...{b}{/n_text}"
+    
+    "{=n_text}{b}ATTEMPTING TO ESTABLISH LINK...{b}{/n_text}"
     
     play sound "Sine2Sec.mp3"
     $ change_wave('wave gray')
@@ -366,6 +372,7 @@ label the_bar:
             m "\"Classy. You remind me of someone I used to know.\""
             
         "\"How about this weather?\"":
+            $ change_wave('transition red')
             show mina sad
             m "\"I don't care much for {color=#fe0009}storms{/color}.\""
             
@@ -490,8 +497,7 @@ label another_drink:
         
         "\"Wow, listen to that thunder!\"" if not red_seen:
             show mina angry
-            $ red_seen = True
-            #$ change_wave('transition red')
+            $ change_wave('transition red')
             m "\"I used to love rainstorms. Now they make me {color=#fe0009}nervous{/color}.\""
             jump weather
             
@@ -533,10 +539,12 @@ label partners:
             jump blue_secret_unlocked
             
 label weather:
-    
+    $ red_seen = True
     menu:
-        "\"Why nervous? Little rain can't hurt you.\"":
-            m "\" It's not the rain. It's what can hide in the {color=#fe0009}shadows{/color}.\""
+        "\"Why nervous? Little rain and lightning can't hurt you.\"":
+            show mina sad
+            $ change_wave('transition red')
+            m "\" It's not the ligtning. It's what can hide in the {color=#fe0009}shadows{/color}.\""
             jump shadows
             
         "\"Guess you aren't as tough as I thought...\"":
@@ -550,6 +558,8 @@ label shadows:
             jump another_drink
         
         "\"Shadows can hide nasty things.\"":
+            show mina happy
+            $ change_wave('transition red')
             m "You don't know the half of it...\""
             jump red_secret_unlocked
 
@@ -668,6 +678,12 @@ label office_night:
     $ transfer_seen = False
     $ papers_seen = False
     $ scientist_seen = False
+    $ fear_seen = False
+    $ scientist_passed = False
+    $ transfer_passed = False
+    $ papers_passed = False
+    $ fear_passed = False
+    
     show bg black
     hide mina
     
@@ -678,9 +694,11 @@ label office_night:
         return
 
     elif number_of_flags > 0: 
-        "{cps=15}{=n_text}This new empathy chip isn't quite what they promised. Or maybe Mina is just that guarded. Either way I don't have a lot to go on. I wonder how all this ties to Kai? I better head home to put the pieces together.{/n_text}{/cps}"
+        "{cps=15}{=n_text}This new empathy chip isn't quite what they promised. Or maybe Mina is just that guarded.{/n_text}{/cps}"
+        "{cps=15}{=n_text}Either way I don't have a lot to go on. I wonder how all this ties to Kai? I better head home to put the pieces together.{/n_text}{/cps}"
         jump house_call
         return
+
     else:
         "{cps=15}{=n_text}This empathy chip was a poor purchase. I can't believe I didn't get anything useful from Mina! My only lead and I blew it. Better go home and sleep it off.{/n_text}{/cps}"
         jump house_call
@@ -741,6 +759,9 @@ label transfer:
             show kai sad
             k "\"Yes, when they copied my memories and gave them to you.\""
             $transfer_passed = True
+            $ change_wave('transition green')
+            $renpy.pause(1.0)
+            $ renpy.music.set_pause(True, channel='music')
             $ renpy.play("WhispersDownloading.mp3")
             "That sound... could it be a consciousness? My consciousness?\""
             jump answers
@@ -772,7 +793,7 @@ label answers:
             k "\"I'm {color=#fe0009}afraid{/color} they'll see me.\""
             jump fear
             
-        "\"I believe you. Get out of here.\"" if scientist_passed or transfer_passed or scientist_passed or fear_passed:
+        "\"I believe you. Get out of here.\"" if scientist_passed or transfer_passed or papers_passed or fear_passed:
             jump good
 
 label fear:
@@ -786,6 +807,9 @@ label fear:
         "\"Who are you afraid of?\"" if red_flag_obtained:
             k "\"You know.\""
             $fear_passed = True
+            $ change_wave('transition red')
+            $renpy.pause(1.0)
+            $ renpy.music.set_pause(True, channel='music')
             $ renpy.play("Thunder.mp3")
             "They're coming for me... I mean for her. For us?"
             jump answers
@@ -801,6 +825,9 @@ label papers:
         "\"What are you hiding using paper documents?\"" if purple_flag_obtained:
             k "\"See for yourself.\""
             $papers_passed = True
+            $ change_wave('transition purple')
+            $renpy.pause(1.0)
+            $ renpy.music.set_pause(True, channel='music')
             $ renpy.play("Paper.mp3")
             "The papers from Mina's memory... Are these those documents?"
             jump answers
@@ -813,8 +840,11 @@ label scientist:
     
     menu:
         "\"What do you mean now?\"" if blue_flag_obtained:
-            k "\"He was a government scientist. But he had a conscience. He knew what they were doing. He showed us proof. We locked him up anyways."
+            k "\"He was a government scientist. But he had a conscience. He knew what they were doing. He showed us proof. We locked him up anyways.\""
             $scientist_passed = True
+            $ change_wave('transition blue')
+            $renpy.pause(1.0)
+            $ renpy.music.set_pause(True, channel='music')
             $ renpy.play("Lock1.mp3")
             "Their first assignment... Was he innocent?"               
             jump answers
