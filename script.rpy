@@ -349,7 +349,9 @@ label the_bar:
     
     show mina normal
     
-    "{=n_text}There she is. {w}The woman in the picture with Kai. {w}I feel like I’ve seen her before, but I’m not sure where. It doesn’t matter. It’s time to put this empath implant to the test...{/n_text}"
+    "{=n_text}There she is. {w=1.0} The woman in the picture with Kai.{/n_text}"
+    
+    "{=n_text}I feel like I’ve seen her before, but I’m not sure where. It doesn’t matter. It’s time to put this empath implant to the test...{/n_text}"
     
     "{=n_text}{b}EMPATH MOD V.07 INITIATED{b}{/n_text}"
     
@@ -363,14 +365,14 @@ label the_bar:
             show mina happy
             m "\"Classy. You remind me of someone I used to know.\""
             
-        "\"Someone who needs a drink?\"":
-            show mina happy
-            m "\"You’re very observant.\""
+        "\"How about this weather?\"":
+            show mina sad
+            m "\"I don't care much for {color=#fe0009}storms{/color}.\""
             
         "\"A soldier?\"":
             show mina happy
             $ change_wave('transition blue')
-            m "\"Ha! I've been called worse.\""
+            m "\"Ha! A {color=#67c8ff}soldier{/color}, huh? I've been called worse things.\""
                 
     m "\"Buy me a drink?\""
     
@@ -391,13 +393,13 @@ label lets_drink:
         "\"Two whiskeys, neat. The best you got.\"":
             show mina sad
             $ change_wave('transition red')
-            m "\"Quick way to drown the memories.\""
+            m "\"Quick way to {color=#fe0009}flood{/color} out the memories.\""
             jump questions
             
         "\"One whiskey, neat. One coffee.\"":
             show mina happy
             $ change_wave('transition green')
-            m "\"Smart to keep a clear head.\""
+            m "\"Smart not to {color=#00ff00}drink too much{/color}.\""
             jump questions
             
 label backoff:
@@ -419,15 +421,15 @@ label questions:
         "Pull out tablet to take notes.":
             show mina angry
             $ change_wave('transition purple')
-            m "\"Hey, what do you need that for?\""
+            m "\"Hey, what do you need that {color=#ba0be0}tablet{/color} for?\""
             jump notes
             
 label notes:
     menu: 
-        "\"I’m just keeping track of my thoughts.\"":
+        "\"I’m just keeping track of my thoughts...\"":
             show mina normal
             $ change_wave('transition purple')
-            m "\"I’d rather you use a notepad.\""
+            m "\"I’d rather you use a {color=#ba0be0}notepad{/color}.\""
             jump obsolete
             
         "\"Worried about what you’re telling me?\"":
@@ -444,14 +446,14 @@ label obsolete:
         "\"A notepad? They’re obsolete.\"":
             show mina happy
             $ change_wave('transition purple')
-            m "\"Obsolete and expensive. But also extremely hard to hack.\""
+            m "\"Obsolete and expensive. But also extremely hard to {color=#ba0be0}hack{/color}.\""
             jump hack
             
 label hack:
     menu:
         "\"You’re obviously an officer, why are you afraid of hacking?\"":
             $ change_wave('transition purple')
-            m "\"Even officers have things they’d rather not have everyone know.\""
+            m "\"Even officers have their {color=#ba0be0}secrets{/color}.\""
             jump secrets
         
         "\"Got something to hide?\"":
@@ -483,20 +485,20 @@ label another_drink:
         "\"Sure. What's it like being a soldier?\"" if not blue_seen:
             show mina sad
             $ change_wave('transition blue')
-            m "\"It used to be different.\" She pauses, looking down."
+            m "\"It used to be different. I couldn't {color=#67c8ff}wait{/color} to graduate.\" She pauses, looking down."
             jump soldier
         
-        "\"How about that weather?\"" if not red_seen:
+        "\"Wow, listen to that thunder!\"" if not red_seen:
             show mina angry
             $ red_seen = True
             #$ change_wave('transition red')
-            m "\"You can't stop me from drowning my sorrows.\""
-            jump another_drink
+            m "\"I used to love rainstorms. Now they make me {color=#fe0009}nervous{/color}.\""
+            jump weather
             
         "\"Aren't you worried about drinking too much?\"" if not green_seen:
             show mina sad
             $ change_wave('transition green')
-            m "\"It's the only safe way to alter my state of mind.\""
+            m "\"It's the only safe way to alter my state of {color=#00ff00}mind{/color}.\""
             jump mind
         
         "\"I think it's your turn to buy...\"":
@@ -508,48 +510,48 @@ label soldier:
         "Wait.":
             show mina happy
             $ change_wave('transition blue')
-            m "\"I had a friend back in academy. She liked whisky too.\""
-            jump whisky
+            m "\"When I finally did, I got partnered up with my best {color=#67c8ff}friend{/color}.\""
+            jump partners
             
-        "\"Things got too real for you?\"":
+        "\"Sorry you were in a hurry?\"":
             show mina sad
             m "\"I guess you could say that.\""
             jump another_drink
             
-label whisky:
+label partners:
     
     menu:
         "\"That wouldn't happen to be Kai, would it?\"":
             show mina angry
-            m "\"I don't know where you heard that name, friend, but you best forget it.\""
+            m "\"I don't know where you heard that name, stranger, but you best forget it.\""
             jump another_drink
                 
-        "\"I bet you made lots of memories together.\"":
+        "\"Must have been great having a friend as your partner.\"":
             show mina sad
             $ change_wave('transition blue')
-            m "Some memories are bittersweet.\""
-            jump bittersweet
-            
-label bittersweet:
-    
-    menu:
-        "\"Memories of that friend?\"":
-            show mina angry
-            "\"You're barking up the wrong tree.\""
-            jump another_drink
-                
-        "Wait for her to reminisce.":   
-            m "\"We ended up getting partnered up when we graduated. Our first collar was her last.\""
-            jump regrets
-            
-label regrets:
-        
-    menu:
-        "Wait for her to reminisce.":
-            m "\"Some regrets just can't be washed away.\""
+            m "\"It was great. Until our first real {color=#67c8ff}assignment{/color}...\""
             jump blue_secret_unlocked
             
-#label weather:
+label weather:
+    
+    menu:
+        "\"Why nervous? Little rain can't hurt you.\"":
+            m "\" It's not the rain. It's what can hide in the {color=#fe0009}shadows{/color}.\""
+            jump shadows
+            
+        "\"Guess you aren't as tough as I thought...\"":
+            m "\"You know nothing about me...\""
+            jump another_drink
+
+label shadows:
+    menu:
+        "\"You're afraid of the dark?\"":
+            m "\"You know nothing about me...\""
+            jump another_drink
+        
+        "\"Shadows can hide nasty things.\"":
+            m "You don't know the half of it...\""
+            jump red_secret_unlocked
 
 label mind:
     $ green_seen = True
@@ -561,7 +563,7 @@ label mind:
         "\"What do you mean altered state of mind?\"":
             show mina normal
             $ change_wave('transition green')
-            m "\"I’m not talking about drugs.\""
+            m "\"I’m not talking about drugs. Those just {color=#00ff00}enhance{/color} your mood.\""
             jump enhancements
 
 label enhancements:
@@ -569,7 +571,7 @@ label enhancements:
         "\"You mean enhancements?\"":
             show mina angry
             $ change_wave('transition green')
-            m "\"Those enhancement junkies are fools. Technology has a place, and it’s not in my head.\""
+            m "\"Those enhancement junkies are fools. Technology has a place, and it’s not in my {color=#00ff00}head{/color}.\""
             jump contradiction
         
         "\"What are you talking about?\"":
@@ -583,7 +585,7 @@ label contradiction:
             m "\"You’re a fool too.\""
             jump another_drink
                 
-        "\"What about your official implant there?\"":
+        "\"What about that official implant on your head?\"":
             show mina sad
             $ change_wave('transition green')
             m "\"We don’t all have a choice...\""
@@ -643,6 +645,24 @@ label green_secret_unlocked:
     $ renpy.music.set_pause(False, channel='music')
     jump another_drink
 
+label red_secret_unlocked:
+    $ number_of_flags = number_of_flags + 1
+    $ red_flag_obtained = True
+    show bg black with fade
+    show wave red at right onlayer waveui
+    
+    $renpy.pause(1.0)
+    
+    $ renpy.music.set_pause(True, channel='music')
+    $ renpy.play("Thunder.mp3")
+    show mina red with dissolve
+        
+    "This memory is buried so deeply! I can only get a sense of... fear?"
+    
+    hide wave red onlayer waveui
+    $ renpy.music.set_pause(False, channel='music')
+    jump another_drink
+
 
 label office_night:
     $ transfer_seen = False
@@ -653,7 +673,7 @@ label office_night:
     
     if number_of_flags > 2:
         "{cps=15}{=n_text}We closed down the bar like two cadets after passing their officers training. Mina’s an alright gal, despite whatever ghosts she's running from.{/n_text}{/cps}"
-        "{cps=15}{=n_text} I wonder how all this ties to Kai? I better head home to put the pieces together.{/n_text}{/cps}"
+        "{cps=15}{=n_text}I wonder how all this ties to Kai? I better head home to put the pieces together.{/n_text}{/cps}"
         jump house_call
         return
 
@@ -710,7 +730,7 @@ label excuses:
         
         "\"Please don't make this difficult.\"":
             show kai sad
-            k "\"So there's some humanity that survives the transfer.\""
+            k "\"So there's some humanity that survives the {color=#00ff00}transfer{/color}.\""
             jump transfer
             
 label transfer:
@@ -720,6 +740,7 @@ label transfer:
         "\"Transfer? ...\"" if green_flag_obtained:
             show kai sad
             k "\"Yes, when they copied my memories and gave them to you.\""
+            $transfer_passed = True
             $ renpy.play("WhispersDownloading.mp3")
             "That sound... could it be a consciousness? My consciousness?\""
             jump answers
@@ -736,31 +757,50 @@ label answers:
     
     menu:
         "\"Help me understand.\"" if not transfer_seen:
-            k "\"So there's some humanity that survives the transfer.\""
+            k "\"So there's some humanity that survives the {color=#00ff00}transfer{/color}.\""
             jump transfer
         
         "\"Why did you come here?\"" if not papers_seen:
-            k "\"To show you these documents.\""
+            k "\"To show you these {color=#ba0be0}documents{/color}.\""
             jump papers
         
         "\"Are you working alone?\"" if not scientist_seen:
-            k "\"I'm the only one who knows now, yes.\""
+            k "\"I'm the only one who knows {color=#67c8ff}now{/color}, yes.\""
             jump scientist
             
-        "\"I believe you. Get out of here.\"" if scientist_seen or transfer_seen or scientist_seen:
+        "\"Step out of the shadows so I can see you.\"" if not fear_seen:
+            k "\"I'm {color=#fe0009}afraid{/color} they'll see me.\""
+            jump fear
+            
+        "\"I believe you. Get out of here.\"" if scientist_passed or transfer_passed or scientist_passed or fear_passed:
             jump good
+
+label fear:
+    $fear_seen = True
+    
+    menu:
+        "\"I'm not going to ask again!\"":
+            k "\"You won't change my mind!\""
+            jump bad
+            
+        "\"Who are you afraid of?\"" if red_flag_obtained:
+            k "\"You know.\""
+            $fear_passed = True
+            $ renpy.play("Thunder.mp3")
+            "They're coming for me... I mean for her. For us?"
+            jump answers
             
 label papers:
     $ papers_seen = True
     
     menu:
-        "\"Only criminals keep paper documents.\"":
+        "\"Only criminals use paper!\"":
             k "\"You're right about that. The things they're doing are criminal!\""
             jump bad
-        
-       
-        "\"What are you hiding using paper?\"" if purple_flag_obtained:
+               
+        "\"What are you hiding using paper documents?\"" if purple_flag_obtained:
             k "\"See for yourself.\""
+            $papers_passed = True
             $ renpy.play("Paper.mp3")
             "The papers from Mina's memory... Are these those documents?"
             jump answers
@@ -774,8 +814,9 @@ label scientist:
     menu:
         "\"What do you mean now?\"" if blue_flag_obtained:
             k "\"He was a government scientist. But he had a conscience. He knew what they were doing. He showed us proof. We locked him up anyways."
+            $scientist_passed = True
             $ renpy.play("Lock1.mp3")
-            "Their first collar... Was he innocent?"               
+            "Their first assignment... Was he innocent?"               
             jump answers
                     
         "\"Good, then it ends here. Let's go.\"":
@@ -783,7 +824,7 @@ label scientist:
             k "\"I told you I'm not going back!\""
             jump bad
         
-        "\"Seems like you know something dangerous.\"":             
+        "\"Convenient that he's not here to corroborate.\"":
             jump answers
 
 label bad:
