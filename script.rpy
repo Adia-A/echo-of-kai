@@ -468,6 +468,7 @@ label secrets:
         
         "\"Secrets?\"":
             show mina sad
+            $ change_wave('transition purple')
             m "\"Everyone has their secrets. Some are just more dangerous than others.\""
             jump purple_secret_unlocked
                 
