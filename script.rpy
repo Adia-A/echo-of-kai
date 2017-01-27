@@ -10,6 +10,7 @@ init python:
     
     def hide_wave():
         renpy.hide('wave', layer='waveui')
+        renpy.hide('transition', layer='waveui')
         return
     
     def change_wave(image_name):
@@ -27,31 +28,6 @@ init python:
             return
         
         return
-    
-    def freq_sound(sound_name):
-        
-        renpy.music.set_pause(True, channel='music')
-        
-        if sound_name == "green":
-            renpy.play("Static1.mp3")
-            store.response = "Huh? Dang, just static. I can't seem to connect."
-        elif sound_name == "purple_mina":
-            renpy.play("Lock2.mp3")
-            store.response = "What is this sound? Maybe I could use this?"
-        elif sound_name == "red_mina":
-            renpy.play("glass.mp3")
-            store.response = "What is this sound? Maybe I could use this?"
-        
-        return
-    
-    def connection_dragged(drags, drop):
-        if not drop:
-            return
-            
-        freq_sound(drags[0].drag_name)
-        
-        return True
-        
 
 # Declare images used by this game.
 
@@ -126,17 +102,17 @@ image tablet:
 
 image wave green:
     "Layer 1-Green-Oscilliscope.png"
-    pause 0.05
+    pause 0.02
     "Layer 2-Green-Oscilliscope.png"
-    pause 0.05
+    pause 0.02
     "Layer 3-Green-Oscilliscope.png"
-    pause 0.05
+    pause 0.02
     "Layer 4-Green-Oscilliscope.png"
-    pause 0.05
+    pause 0.02
     "Layer 5-Green-Oscilliscope.png"
-    pause 0.05
+    pause 0.02
     "Layer 6-Green-Oscilliscope.png"
-    pause 0.05
+    pause 0.02
     repeat
     
 image wave purple:
@@ -174,15 +150,15 @@ image wave purple:
 
 image wave red:
     "Layer 1-Red-Oscilliscope-Fast.png"
-    pause 0.05
+    pause 0.02
     "Layer 2-Red-Oscilliscope-Fast.png"
-    pause 0.05
+    pause 0.02
     "Layer 3-Red-Oscilliscope-Fast.png"
-    pause 0.05
+    pause 0.02
     "Layer 4-Red-Oscilliscope-Fast.png"
-    pause 0.05
+    pause 0.02
     "Layer 5-Red-Oscilliscope-Fast.png"
-    pause 0.05
+    pause 0.02
     repeat
 
 image wave blue:
@@ -291,6 +267,7 @@ image kai sad = Image("kai/Kai Normal.png", xalign=0.5, yalign=0.04)
 
 define m = Character("Mina")
 define k = Character("Kai")
+define u = Character("???")
 
 # The game starts here.
 
@@ -341,7 +318,7 @@ label the_bar:
     $ green_flag_obtained = False
     $ blue_flag_obtained = False
     $ red_flag_obtained = False
-    $ blue_flag_obtained = False
+    $ purple_flag_obtained = False
     
     play music "Bar_Loop_01.mp3" loop fadein 1.0
     scene bg bar
@@ -705,18 +682,18 @@ label office_night:
         return
             
 label house_call:
-    
+    $ hide_wave()
     play music "Neon Noir Reveal.mp3"
     
-    k "\"I hope you don't mind. I let myself in.\""
+    u "\"I hope you don't mind. I let myself in.\""
     
     scene bg roomnight
     show kai normal
     
     show kai angry
-    k "\"I heard you’ve been looking for me.\""
+    u "\"I heard you’ve been looking for me.\""
     
-    $ renpy.music.set_volume(0.4, delay=0, channel='music')
+    $ renpy.music.set_volume(0.1, delay=0, channel='music')
 
     menu:
         "\"You just made my job easier, Kai.\"":
@@ -775,7 +752,7 @@ label transfer:
             jump answers
             
 label answers:
-    
+    $ renpy.music.set_pause(False, channel='music')
     menu:
         "\"Help me understand.\"" if not transfer_seen:
             k "\"So there's some humanity that survives the {color=#00ff00}transfer{/color}.\""
@@ -858,11 +835,13 @@ label scientist:
             jump answers
 
 label bad:
+    $ renpy.music.set_pause(False, channel='music')
+    show bg black with Dissolve(3.0)
+    hide kai with Dissolve(3.0)
     
     "{cps=15}{=n_text}It all happened so quickly. Did she draw first or did I? I'd better contact the authorities...{/n_text}{/cps}"
     
-    hide kai
-    
+    show bg roomnight with Dissolve(3.0)
     show mina normal
     m "\"I guess you sniffing around brought her out of hiding.\""
     show mina sad
@@ -871,7 +850,7 @@ label bad:
     return
 
 label good:
-    
+    $ renpy.music.set_pause(False, channel='music')
     "{cps=15}{=n_text}If she's right, I can't take her in. And if anyone knows she paid me a visit, I'm not safe either. I'll have to figure things out on the road.{/n_text}{/cps}"
     
     return
